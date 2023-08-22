@@ -1,0 +1,32 @@
+const dynamicText = document.querySelector("h1 span");
+const words = ["Love", "Like Art", "the Future", "Everything"];
+
+let wordIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+
+const typeEffect = () => {
+    const currentWord = words[wordIndex];
+    const currentChar = currentWord.substring(0, charIndex);
+    console.log(currentWord, currentChar);
+    dynamicText.textContent = currentChar;
+    dynamicText.classList.add("stop-blinking");
+
+    if(!isDeleting && charIndex < currentWord.length){
+        // If Condition Is True type the next character
+        charIndex++;
+        setTimeout(typeEffect, 200);
+    }else if(isDeleting && charIndex > 0){
+        // If Condition Is True, remove the previous charaters
+        charIndex--;
+        setTimeout(typeEffect, 100);
+    }else{
+        //If The Word Is Deleted then switch to the next word
+        isDeleting = !isDeleting;
+        dynamicText.classList.remove("stop-blinking");
+        wordIndex = !isDeleting ? (wordIndex + 1) % words.length : wordIndex;
+        setTimeout(typeEffect,1200);
+    }
+}
+
+typeEffect();
